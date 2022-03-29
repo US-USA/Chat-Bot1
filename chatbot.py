@@ -23,6 +23,8 @@ SOFTWARE.
 """
 
 import requests
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors import UserNotParticipant 
 from os import getenv
 from pyrogram import Client, filters
 from googletrans import Translator
@@ -34,7 +36,24 @@ bot = Client("Chatbot",
 
 tr = Translator()
 
+force_channel = "us7a5"
 @bot.on_message(filters.command("start"))
+    if force_channel:
+        try:
+            user = await bot.get_chat_member(force_channel, message.from_user.id)
+            if user.status == "kicked out":
+                return
+        except UserNotParticipant:
+            await message.reply_text(
+                text="𝙹𝙾𝙸𝙽 𝙼𝚈 𝚄𝙿𝙳𝙰𝚃𝙴 ➻ @us7a5",
+                reply_markup=InlineKeyboardMarkup( [[
+                 InlineKeyboardButton("𝗡𝗘𝗪 𝗬𝗢𝗥𝗞 ", url=f"https://t.me/us7a5")
+                 ]]
+                )
+            )
+            return
+      
+
 async def startmsg(_, message):
     await message.reply_video(video="https://telegra.ph/file/b8f0cbdf67943328459d2.mp4", 
     caption=f"Hello {message.from_user.mention}. \nI'm AI Chat bot made by Tinura Dinith by Using Affiliateplus API, You can chat with me here.")
