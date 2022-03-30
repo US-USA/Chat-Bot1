@@ -32,8 +32,7 @@ async def chatbot(_, message):
     lang = tr.translate(message.text).src
     trtoen = (message.text if lang=="en" else tr.translate(message.text, dest="en").text).replace(" ", "%20")
     text = trtoen.replace(" ", "%20") if len(message.text) < 2 else trtoen
-    newyork = ("{text}")
-    textmsg = (newyork.json()["message"])
+    caption = ("{text}")
     msg = tr.translate(textmsg, src='en', dest=lang)
     await message.reply_text(msg.text)
 
